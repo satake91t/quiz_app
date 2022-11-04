@@ -5,10 +5,13 @@
     - 今は誰にでも見られる設定になってるので, 公開できない資料は載せないで下さい
 
 - 構成
-    - /app アプリのソースコード
+    - ./app アプリのソースコード
         - manifestファイル
-        - ~/java .javaファイル
-        - ~/layout .xmlファイル
-    - /document
+        - /java .javaファイル
+        - /layout .xmlファイル
+    - ./document
         - 各開発工程の資料
+    - ./introduction gitについての説明
+        - /GitIntroduction.md git導入
+        - /HowToUse.md 使い方
     
