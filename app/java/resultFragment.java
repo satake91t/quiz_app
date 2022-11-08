@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,7 +23,7 @@ public class resultFragment extends Fragment {
 
     //フィールド変数の宣言
     takeQuizPackActivity tqActivity;
-    mainApplication data;
+    mainApplication mainApplication;
     int puckNum;
     int quizNumProblem;
     String[] listData;
@@ -42,18 +41,16 @@ public class resultFragment extends Fragment {
 
     //フラグメントが生成されたときに行う処理、主に結果の表示とボタンの生成
     @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
         //フィールド変数に値を代入
         tqActivity=(takeQuizPackActivity)getActivity();  //Activityをインスタンス化して、Activityのメソッドが使えるようにする
-        data=tqActivity.getData();
-        puckNum=data.getPuckNum();
+        mainApplication =tqActivity.getData();
+        puckNum= mainApplication.getPuckNum();
 
         //Applicationクラスにあるパックの情報をリストに代入
-        data.setAllList(); //リストに値を入れるためいったん記載している
-        allList=data.getAllList();
+        allList= mainApplication.getAllList();
 
         //配列に値を代入
         setListData(allList);
@@ -111,25 +108,14 @@ public class resultFragment extends Fragment {
         layout.addView(textView);
 
 
-        //ボタンが押された時の処理
-        View.OnClickListener imgBtnListenerImpl =new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View view) {
-                data.setQuizNum((int)view.getTag());  //押されたボタンのタグを問題番号を入れている変数に渡す
-                layout.removeAllViews();
-                replaceFragment(new showExplanationFragment() );
-            }
-        };
-
-
         //ボタンの生成
         for(int i=1;i<=quizNumProblem;i++){
             //ボタンの設定
             button = new Button(tqActivity);
             button.setText("問題番号"+i+"番");
+            button.setTextSize(30);
             button.setTag(i);
-            button.setOnClickListener(imgBtnListenerImpl);
+            button.setOnClickListener(creataShowExplanationFragment);
             //ボタンの幅、高さの設定
             LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -141,22 +127,26 @@ public class resultFragment extends Fragment {
 
     }
 
+    //ボタンが押された時の処理
+    View.OnClickListener creataShowExplanationFragment =new View.OnClickListener() {
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        public void onClick(View view) {
+            mainApplication.setQuizNum((int)view.getTag());  //押されたボタンのタグをint型に変換し問題番号を入れている変数に渡す
 
-    //フラグメントの呼び出しをするメソッド
-    private void replaceFragment(Fragment fragment){
-        // フラグメントマネージャーの取得
-        FragmentManager manager = tqActivity.getSupportFragmentManager(); // アクティビティではgetSupportFragmentManager()?
-        // フラグメントトランザクションの開始
-        FragmentTransaction transaction = manager.beginTransaction();
-        // レイアウトをfragmentに置き換え（追加）
-        transaction.replace(layout.getId(),fragment);
-        // 置き換えのトランザクションをバックスタックに保存する
-        transaction.addToBackStack(null);
-        // フラグメントトランザクションをコミット
-        transaction.commit();
-    }
-
-
+            mainApplication.setFromTakeQuizFragment(false);
+            // フラグメントマネージャーの取得
+            FragmentManager manager = tqActivity.getSupportFragmentManager(); // アクティビティではgetSupportFragmentManager()?
+            // フラグメントトランザクションの開始
+            FragmentTransaction transaction = manager.beginTransaction();
+            // レイアウトをfragmentに置き換え（追加）
+            transaction.replace(layout.getId(),new showExplanationFragment());
+            // 置き換えのトランザクションをバックスタックに保存する
+            transaction.addToBackStack(null);
+            // フラグメントを表示する
+            transaction.commit();
+        }
+    };
 }
 
 

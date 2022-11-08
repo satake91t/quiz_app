@@ -9,6 +9,7 @@
         - $ git config --global user.email メールアドレス
 - vscode拡張機能インストール
     - vscodeの拡張機能検索から, git graphとgit historyをインストール
+
 ![拡張機能](./fig/vscodeextension.jpg)
 
 - 必要な準備は以上です
@@ -18,6 +19,8 @@
 - 変更方法
     - vscodeでターミナルを開く
     - 右上の+マークの隣の下向き三角マークから, select Default profileを選択
+
 ![ターミナル](./fig/defaultterminal.jpg)
+
     - default terminalにgit bashを選択
     - 次から起動するターミナルがbashになります. シェル名(画像ではbashってなってるところ)をクリックすると直接変更できます. 
