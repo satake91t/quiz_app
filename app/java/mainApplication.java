@@ -16,31 +16,41 @@ import java.util.List;
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class mainApplication extends Application {
     private int puckNum=0;
-    private String fileName = "test";
+    private String fileName = "packData.csvのことかしら";
     private List<String> allList = new ArrayList<String>();
+    private List<String> selectList = new ArrayList<String>();
     private int quizNum;
     private String puckId="0";
+    private boolean fromMakePackActivity=false;
     private boolean fromTakeQuizFragment=false;
     private boolean fromResultFragment=false;
+    private String PACK_DATA_PATH = "packData.csv";//パスでなくファイル名を使うならfileNameだけでいい
 
+    public void setSelectList(List<String> inputSelectList) {
+        this.selectList = inputSelectList;
+    }
 
-
-
-
-
-
+    public List<String> getSelectList(){
+        return this.selectList;
+    }
 
     public int getPuckNum() {
         return puckNum;
     }
 
+    public void setPuckNum(int puckNum) {
+        this.puckNum=puckNum;
+    }
+
     //修正必要
+    //allListに代入→returnでよさそう？　
     public List<String> getAllList() {
         String str= readFileAsText(fileName);
         return allList;
     }
 
     //修正必要
+    //いる？
     public void setAllList(){
         deleteFile(fileName);
         saveFile(fileName, "0,ワンピースクイズ,50,ワンピースのクイズです,漫画\n");
@@ -66,7 +76,8 @@ public class mainApplication extends Application {
     }
 
     /*
-    *ファイルの読み込みをするメソッド
+    *ファイルの読み込みをするメソッド String
+    String型で全データ扱わないからいらない？
      */
     public String readFileAsText(String file){
         String text=null;
@@ -107,7 +118,9 @@ public class mainApplication extends Application {
     }
 
     /*
-    *ファイルの読み込みをするメソッド
+    *ファイルの読み込みをするメソッド　List
+    ・allListを作る
+    ・クイズ一覧のリストを作る？
      */
     public List<String> readFileAsList(String file) {
         List<String> list=new ArrayList<>();
@@ -177,4 +190,13 @@ public class mainApplication extends Application {
     public void setFromResultFragment(boolean fromResultFragment) {
         this.fromResultFragment = fromResultFragment;
     }
+    
+    public boolean getFromMakePackActivity() {
+        return fromMakePackActivity;
+    }
+
+    public void setFromMakePackActivity(boolean fromMakePackActivity) {
+        this.fromMakePackActivity = fromMakePackActivity;
+    }
+
 }
